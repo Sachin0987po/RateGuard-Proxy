@@ -1,0 +1,24 @@
+{
+    "endpoints": [
+      {
+        "id": 1,
+        "path": "/api/user",
+        "RequestsPerSec": 3
+      },
+      {
+        "id": 2,
+        "path": "/api/product",
+        "RequestsPerSec": 2
+      },
+      {
+        "id": 3,
+        "path": "/api/order",
+        "RequestsPerSec": 20
+      },
+      {
+        "id": 4,
+        "path": "/api/payment",
+        "RequestsPerSec": 15
+      }
+    ]
+  }
