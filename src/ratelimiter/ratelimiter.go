@@ -14,7 +14,7 @@ var timeUnit = 60.00
 func rateLimiterInit(endpoint config.Endpoint, key string) {
 	rateLimiter := database.RateLimiter{}
 	rateLimiter.CurrTime = time.Now()
-	rateLimiter.PreCount = float64(endpoint.RequestsPerSec)
+	rateLimiter.PreCount = float64(endpoint.RequestsPerMin)
 	rateLimiter.CurrCount = 1
 	database.SetDataInRedis(rateLimiter, key)
 }
@@ -31,7 +31,7 @@ func RateLimiterHandler(key string, endpoint config.Endpoint) bool {
 			rateLimiter.CurrCount = 0
 		}
 		ec := math.Ceil(rateLimiter.PreCount*(timeUnit-timeDiff)/timeUnit + rateLimiter.CurrCount)
-		if ec > float64(endpoint.RequestsPerSec) {
+		if ec > float64(endpoint.RequestsPerMin) {
 			return false
 		}
 

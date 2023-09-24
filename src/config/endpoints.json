@@ -3,22 +3,22 @@
       {
         "id": 1,
         "path": "^/api/user$",
-        "RequestsPerSec": 3
+        "RequestsPerMin": 3
       },
       {
         "id": 2,
         "path": "^/api/product/(\\d+)$",
-        "RequestsPerSec": 2
+        "RequestsPerMin": 2
       },
       {
         "id": 3,
         "path": "^/api/order$",
-        "RequestsPerSec": 20
+        "RequestsPerMin": 20
       },
       {
         "id": 4,
         "path": "^/api/payment$",
-        "RequestsPerSec": 15
+        "RequestsPerMin": 15
       }
     ]
   }

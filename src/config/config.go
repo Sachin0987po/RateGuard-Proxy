@@ -10,7 +10,7 @@ import (
 type Endpoint struct {
 	Id             int    `json:"id"`
 	Path           string `json:"path"`
-	RequestsPerSec int    `json:"RequestsPerSec"`
+	RequestsPerMin int    `json:"RequestsPerMin"`
 	pattern        *regexp.Regexp
 }
 
@@ -55,7 +55,7 @@ func GetEndpointDetail(path string, epDetail *Endpoint) bool {
 		if endpoint.Path == path || endpoint.pattern.MatchString(path) {
 			epDetail.Id = endpoint.Id
 			epDetail.Path = endpoint.Path
-			epDetail.RequestsPerSec = endpoint.RequestsPerSec
+			epDetail.RequestsPerMin = endpoint.RequestsPerMin
 			return true
 		}
 	}
