@@ -2,12 +2,12 @@ package config
 
 import (
 	"encoding/json"
-	"log"
 	"io/ioutil"
+	"log"
 )
 
 type Endpoint struct {
-	Id			   int 	  `json:"id"`
+	Id             int    `json:"id"`
 	Path           string `json:"path"`
 	RequestsPerSec int    `json:"RequestsPerSec"`
 }
@@ -18,10 +18,9 @@ type endPointDetialsConfig struct {
 
 var endptsDetailsConf endPointDetialsConfig
 
-
 func readEndpointFromJson() bool {
 	filePath := "./config/endpoints.json"
-	
+
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		log.Fatalf("Error reading JSON file: %v", err)
@@ -37,9 +36,8 @@ func readEndpointFromJson() bool {
 	return true
 }
 
-
 func GetEndpointDetail(path string, epDetail *Endpoint) bool {
-	if len(endptsDetailsConf.Endpoints) == 0 && !readEndpointFromJson(){
+	if len(endptsDetailsConf.Endpoints) == 0 && !readEndpointFromJson() {
 		return false
 	}
 	for _, endpoint := range endptsDetailsConf.Endpoints {

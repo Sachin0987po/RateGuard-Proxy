@@ -2,12 +2,12 @@ package database
 
 import (
 	"context"
-	"github.com/go-redis/redis/v8"
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"time"
-)
 
+	"github.com/go-redis/redis/v8"
+)
 
 var Client *redis.Client
 var Ctx = context.Background()
@@ -29,7 +29,6 @@ func InitializeRedisClient() error {
 
 	return nil
 }
-
 
 func GetDataFromRedis(key string) (RateLimiter, error) {
 	rateLimiter := RateLimiter{}

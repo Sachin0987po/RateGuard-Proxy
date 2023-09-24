@@ -1,14 +1,13 @@
 package ratelimiter
 
 import (
-	"fmt"
-	"time"
 	"math"
-	"github.com/proxy-server-rateLimiter/database"
+	"time"
+
 	"github.com/go-redis/redis/v8"
 	"github.com/proxy-server-rateLimiter/config"
+	"github.com/proxy-server-rateLimiter/database"
 )
-
 
 var timeUnit = 60.00
 
@@ -37,8 +36,7 @@ func RateLimiterHandler(key string, endpoint config.Endpoint) bool {
 		}
 
 		rateLimiter.CurrCount++
-		fmt.Println("RateLimiter :- ", rateLimiter)
 		database.SetDataInRedis(rateLimiter, key)
 	}
-	return true	
+	return true
 }

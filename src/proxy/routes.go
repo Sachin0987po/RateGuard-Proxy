@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
 	"github.com/proxy-server-rateLimiter/config"
 	"github.com/proxy-server-rateLimiter/ratelimiter"
 )
@@ -13,12 +14,11 @@ var customTransport = http.DefaultTransport
 var targetIP = "127.0.0.1"
 var targetPort = "8081"
 
-
-func getTargetUrl( r *http.Request) *url.URL {
+func getTargetUrl(r *http.Request) *url.URL {
 	return &url.URL{
-		Scheme: "http",
-		Host:   fmt.Sprintf("%s:%s", targetIP, targetPort),
-		Path:   r.URL.Path,
+		Scheme:   "http",
+		Host:     fmt.Sprintf("%s:%s", targetIP, targetPort),
+		Path:     r.URL.Path,
 		RawQuery: r.URL.RawQuery,
 	}
 }
@@ -34,18 +34,17 @@ func isApiUnderRateLimit(path string, key string) bool {
 }
 
 func HandleRequest(w http.ResponseWriter, r *http.Request) {
-	
+
 	key := r.Header.Get("api-key")
-	
+
 	if key == "" {
 		http.Error(w, "API key is missing", http.StatusUnauthorized)
 		return
 	}
-	if(!isApiUnderRateLimit(r.URL.Path, key)) {
+	if !isApiUnderRateLimit(r.URL.Path, key) {
 		http.Error(w, "Rate limit exceeded", http.StatusTooManyRequests)
 		return
 	}
-
 
 	targetURL := getTargetUrl(r)
 	proxyReq, err := http.NewRequest(r.Method, targetURL.String(), r.Body)

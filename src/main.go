@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/proxy-server-rateLimiter/database"
-	"github.com/proxy-server-rateLimiter/proxy"
 	"log"
 	"net/http"
+
+	"github.com/proxy-server-rateLimiter/database"
+	"github.com/proxy-server-rateLimiter/proxy"
 )
-
-
 
 func main() {
 
@@ -17,7 +16,7 @@ func main() {
 		fmt.Println("Error initializing Redis client:", err)
 	}
 	defer database.Client.Close()
-	
+
 	server := http.Server{
 		Addr:    ":8080",
 		Handler: http.HandlerFunc(proxy.HandleRequest),
