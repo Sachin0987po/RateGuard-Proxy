@@ -23,14 +23,8 @@ func getTargetUrl(r *http.Request) *url.URL {
 	}
 }
 
-func isApiUnderRateLimit(path string, key string) bool {
-	ep := config.Endpoint{}
-	if config.GetEndpointDetail(path, &ep) {
-		key = key + "-" + fmt.Sprintf("%d", ep.Id)
-		fmt.Println("key :- ", key)
-		return ratelimiter.RateLimiterHandler(key, ep)
-	}
-	return false
+func isApiUnderRateLimit(endpoint config.Endpoint, key string) bool {
+	return ratelimiter.RateLimiterHandler(key, endpoint)
 }
 
 func HandleRequest(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +35,14 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "API key is missing", http.StatusUnauthorized)
 		return
 	}
-	if !isApiUnderRateLimit(r.URL.Path, key) {
+
+	ep := config.Endpoint{}
+	if !config.GetEndpointDetail(r.URL.Path, &ep) {
+		http.Error(w, "Endpoint not found", http.StatusBadRequest)
+		return
+	}
+
+	if !isApiUnderRateLimit(ep, key) {
 		http.Error(w, "Rate limit exceeded", http.StatusTooManyRequests)
 		return
 	}

@@ -2,22 +2,22 @@
     "endpoints": [
       {
         "id": 1,
-        "path": "/api/user",
+        "path": "^/api/user$",
         "RequestsPerSec": 3
       },
       {
         "id": 2,
-        "path": "/api/product",
+        "path": "^/api/product/(\\d+)$",
         "RequestsPerSec": 2
       },
       {
         "id": 3,
-        "path": "/api/order",
+        "path": "^/api/order$",
         "RequestsPerSec": 20
       },
       {
         "id": 4,
-        "path": "/api/payment",
+        "path": "^/api/payment$",
         "RequestsPerSec": 15
       }
     ]
