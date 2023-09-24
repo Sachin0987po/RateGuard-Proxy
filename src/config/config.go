@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"regexp"
 )
 
 type Endpoint struct {
 	Id             int    `json:"id"`
 	Path           string `json:"path"`
 	RequestsPerSec int    `json:"RequestsPerSec"`
+	pattern        *regexp.Regexp
 }
 
 type endPointDetialsConfig struct {
@@ -17,6 +19,13 @@ type endPointDetialsConfig struct {
 }
 
 var endptsDetailsConf endPointDetialsConfig
+
+func compileRegexp(endptsDetailsConf *endPointDetialsConfig) {
+	for i, endpoint := range endptsDetailsConf.Endpoints {
+		regex, _ := regexp.Compile(endpoint.Path)
+		endptsDetailsConf.Endpoints[i].pattern = regex
+	}
+}
 
 func readEndpointFromJson() bool {
 	filePath := "./config/endpoints.json"
@@ -33,6 +42,8 @@ func readEndpointFromJson() bool {
 		return false
 	}
 
+	compileRegexp(&endptsDetailsConf)
+
 	return true
 }
 
@@ -41,7 +52,7 @@ func GetEndpointDetail(path string, epDetail *Endpoint) bool {
 		return false
 	}
 	for _, endpoint := range endptsDetailsConf.Endpoints {
-		if endpoint.Path == path {
+		if endpoint.Path == path || endpoint.pattern.MatchString(path) {
 			epDetail.Id = endpoint.Id
 			epDetail.Path = endpoint.Path
 			epDetail.RequestsPerSec = endpoint.RequestsPerSec
